@@ -32,9 +32,16 @@ var tracker = {
   },
 
   displayThreePics: function() {
-   var one = tracker.displayPics(tracker.picOne);
-   var two = tracker.displayPics(tracker.picTwo);
-   var three = tracker.displayPics(tracker.picThree);
+   while (true) {
+     var one = tracker.displayPics(tracker.picOne);
+     var two = tracker.displayPics(tracker.picTwo);
+     var three = tracker.displayPics(tracker.picThree);
+     if (one === two || two === three || one === three) {
+       console.log('one', one, 'two', two, 'three', three);
+     } else {
+       return false;
+     }
+   }
  },
 
 //imageClicked: function(event){
