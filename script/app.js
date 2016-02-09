@@ -46,7 +46,9 @@ var tracker = {
  },
 
   submitAnswers: function() {
-    var button = document.getElementById('id');
+    var button = document.getElementById('doneButton');
+    button.className = '';
+    button.addEventListener('click', tracker.buildBarChart);
   },
 
   userChoice: function() {
@@ -60,7 +62,7 @@ var tracker = {
             console.log(rounds);
             if (rounds === maxRounds) {
               tracker.allPics.removeEventListener('click', playGame);
-              tracker.buildBarChart();
+              tracker.submitAnswers();
             }
           }
         }
