@@ -1,7 +1,7 @@
 var picsArr = [];
 var names = ["bag", "banana", "boots", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"];
 var rounds = 0;
-var maxRounds = 15;
+var maxRounds = 5;
 
 function Product(name) {
   this.path = "images/" + name + ".jpg";
@@ -43,13 +43,9 @@ var tracker = {
        return false;
      }
    }
- },
 
-  submitAnswers: function() {
-    var button = document.getElementById('doneButton');
-    button.className = '';
-    button.addEventListener('click', tracker.buildBarChart);
-  },
+   userChoice();
+ },
 
   userChoice: function() {
     tracker.allPics.addEventListener('click', function playGame(event) {
@@ -57,7 +53,6 @@ var tracker = {
         for (x in picsArr) {
           if (event.target.src.indexOf(picsArr[x].path) !== -1) {
             picsArr[x].counter++;
-            console.log(picsArr[x].counter);
             rounds++;
             console.log(rounds);
             if (rounds === maxRounds) {
@@ -70,6 +65,12 @@ var tracker = {
         tracker.displayThreePics();
       }
     }, false);
+  },
+
+  submitAnswers: function() {
+    var button = document.getElementById('doneButton');
+    button.className = '';
+    button.addEventListener('click', tracker.buildBarChart);
   },
 
   buildBarChart: function() {
@@ -89,12 +90,30 @@ var tracker = {
     for (var pics in picsArr) {
       var picData = picsArr[pics].counter;
       data.datasets[0].data.push(picData);
-      console.log(data.datasets[0].data);
     }
 
     var ctx = document.getElementById("myChart").getContext("2d");
     var myNewChart = new Chart(ctx).Bar(data);
+    var chart = document.getElementById('myChart');
+    chart.className = '';
+    tracker.populateReset();
   },
+
+  populateReset: function() {
+  var button = document.getElementById('doneButton').className = 'hideMe';
+  var resetButton = document.getElementById('resetButton');
+  resetButton.className = '';
+  resetButton.addEventListener('click', tracker.restartGame);
+},
+
+  restartGame: function() {
+  var chart = document.getElementById('myChart').className = 'hideMe';
+  var resetButton = document.getElementById('resetButton').className = 'hideMe';
+  rounds = 0;
+  tracker.displayThreePics();
+  tracker.userChoice();
+},
+
 };
 
 window.onload = function() {
