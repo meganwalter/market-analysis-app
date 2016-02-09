@@ -1,13 +1,13 @@
 var picsArr = [];
 var names = ["bag", "banana", "boots", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"];
 var rounds = 0;
-var maxRounds = 15;
+var maxRounds = 5;
 
 function Product(name) {
   this.path = "images/" + name + ".jpg";
   this.name = name;
   this.counter = 0;
-  picsArr.push(this);//push to array
+  picsArr.push(this);
 }
 
 function makePics() {
@@ -27,7 +27,7 @@ var tracker = {
     return Math.floor(Math.random() * names.length);
   },
 
-  displayPics: function(pic) { //add position - this will incorporate the PicOne, Two, Three above
+  displayPics: function(pic) {
     pic.src = picsArr[tracker.randomImg()].path;
     return pic.src;
   },
@@ -38,14 +38,16 @@ var tracker = {
      var two = tracker.displayPics(tracker.picTwo);
      var three = tracker.displayPics(tracker.picThree);
      if (one === two || two === three || one === three) {
-       console.log('one', one, 'two', two, 'three', three);
+       console.log('re-run');
      } else {
        return false;
      }
    }
+
+   userChoice();
  },
 
-userChoice: function() {
+  userChoice: function() {
     tracker.allPics.addEventListener('click', function playGame(event) {
       if (event.target.tagName === 'IMG') {
         for (x in picsArr) {
@@ -55,8 +57,7 @@ userChoice: function() {
             console.log(rounds);
             if (rounds === maxRounds) {
               tracker.allPics.removeEventListener('click', playGame);
-              //show button
-              //run the chart function
+              tracker.submitAnswers();
             }
           }
         }
@@ -65,6 +66,54 @@ userChoice: function() {
       }
     }, false);
   },
+
+  submitAnswers: function() {
+    var button = document.getElementById('doneButton');
+    button.className = '';
+    button.addEventListener('click', tracker.buildBarChart);
+  },
+
+  buildBarChart: function() {
+    var data = {
+    labels: ["bag", "banana", "boots", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"],
+    datasets: [
+      {
+      label: "User Choices",
+      fillColor: "rgba(220,220,220,0.5)",
+      strokeColor: "rgba(220,220,220,0.8)",
+      highlightFill: "rgba(220,220,220,0.75)",
+      highlightStroke: "rgba(220,220,220,1)",
+      data: [],
+    },
+  ],
+  };
+    for (var pics in picsArr) {
+      var picData = picsArr[pics].counter;
+      data.datasets[0].data.push(picData);
+    }
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myNewChart = new Chart(ctx).Bar(data);
+    var chart = document.getElementById('myChart');
+    chart.className = '';
+    tracker.populateReset();
+  },
+
+  populateReset: function() {
+  var button = document.getElementById('doneButton').className = 'hideMe';
+  var resetButton = document.getElementById('resetButton');
+  resetButton.className = '';
+  resetButton.addEventListener('click', tracker.restartGame);
+},
+
+  restartGame: function() {
+  var chart = document.getElementById('myChart').className = 'hideMe';
+  var resetButton = document.getElementById('resetButton').className = 'hideMe';
+  rounds = 0;
+  tracker.displayThreePics();
+  tracker.userChoice();
+},
+
 };
 
 window.onload = function() {
