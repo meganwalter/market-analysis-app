@@ -1,7 +1,7 @@
 var picsArr = [];
 var names = ["bag", "banana", "boots", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"];
 var rounds = 0;
-var maxRounds = 5;
+var maxRounds = 15;
 
 function Product(name) {
   this.path = "images/" + name + ".jpg";
@@ -54,7 +54,7 @@ var tracker = {
           if (event.target.src.indexOf(picsArr[x].path) !== -1) {
             picsArr[x].counter++;
             rounds++;
-            console.log(rounds);
+            console.log(picsArr[x].name);
             if (rounds === maxRounds) {
               tracker.allPics.removeEventListener('click', playGame);
               tracker.submitAnswers();
@@ -79,10 +79,10 @@ var tracker = {
     datasets: [
       {
       label: "User Choices",
-      fillColor: "rgba(220,220,220,0.5)",
-      strokeColor: "rgba(220,220,220,0.8)",
-      highlightFill: "rgba(220,220,220,0.75)",
-      highlightStroke: "rgba(220,220,220,1)",
+      fillColor: "rgba(231, 12, 12, 0.5)",
+      strokeColor: "rgba(121, 5, 5, 0.8)",
+      highlightFill: "rgba(113, 22, 102, 0.75)",
+      highlightStroke: "rgba(189, 17, 17, 1)",
       data: [],
     },
   ],
