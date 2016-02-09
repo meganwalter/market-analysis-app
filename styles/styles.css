@@ -1,6 +1,31 @@
+body{
+  background-color: rgb(140, 137, 143);
+  font-family: 'Questrial', sans-serif;
+  width: 85%;
+  align-content: center;
+}
+
+h1{
+  text-align: center;
+}
+
+button{
+  clear: left;
+  height: 50px;
+  width: 100px;
+  font-family: 'Questrial', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#allImages {
+  align-self: center;
+  width: 100%;
+}
+
 .imageChoices{
-  height: 400px;
-  width: 400px;
+  height: 90%;
+  width: 30%;
   border: 2px solid black;
   display: inline-block;
 }
