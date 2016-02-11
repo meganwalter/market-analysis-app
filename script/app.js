@@ -54,6 +54,7 @@ var tracker = {
           if (event.target.src.indexOf(picsArr[x].path) !== -1) {
             picsArr[x].counter++;
             rounds++;
+            tracker.updateProgress();
             console.log(picsArr[x].name);
             if (rounds === maxRounds) {
               tracker.allPics.removeEventListener('click', playGame);
@@ -114,6 +115,10 @@ var tracker = {
   tracker.userChoice();
 },
 
+  updateProgress: function() {
+    var bar = document.getElementById('progBar');
+    bar.value = rounds;
+  },
 };
 
 window.onload = function() {
