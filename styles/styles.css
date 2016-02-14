@@ -45,6 +45,16 @@ button{
   margin-right: auto;
 }
 
+#topImage {
+  height: 90%;
+  width: 30%;
+  margin-bottom: 10px;
+}
+
+#topImageText {
+  text-align: left;
+}
+
 .imageChoices{
   height: 90%;
   width: 30%;
