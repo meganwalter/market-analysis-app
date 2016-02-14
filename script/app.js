@@ -143,9 +143,20 @@ var tracker = {
     var bar = document.getElementById('progBar');
     bar.value = rounds;
   },
+
+  startGame: function() {
+    var startButton = document.getElementById('beginGame');
+    var gameContent = document.getElementById('gameSec');
+    var firstPage = document.getElementById('startPage');
+    startButton.addEventListener('click', function(event) {
+      firstPage.className = 'hideMe';
+      gameContent.className = '';
+      tracker.displayThreePics();
+      tracker.userChoice();
+    });
+  },
 };
 
 window.onload = function() {
-  tracker.displayThreePics();
-  tracker.userChoice();
+  tracker.startGame();
 };
