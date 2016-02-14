@@ -130,9 +130,19 @@ var tracker = {
     tracker.votesChart = myNewChart;
     chart.className = '';
     tracker.findHighest();
+    tracker.showTopProduct();
     tracker.populateReset();
   },
 
+  showTopProduct: function() {
+    var top = document.getElementById('topImage');
+    var toptext = document.getElementById('topImageText');
+    var gameImages = document.getElementById('allImages');
+    top.src = topPic.path;
+    gameImages.className = 'hideMe';
+    top.className = '';
+    toptext.className = '';
+  },
 
   populateReset: function() {
   var button = document.getElementById('doneButton').className = 'hideMe';
@@ -146,6 +156,9 @@ var tracker = {
   tracker.votesChart.destroy();
   var chart = document.getElementById('myChart').className = 'hideMe';
   var resetButton = document.getElementById('resetButton').className = 'hideMe';
+  var top = document.getElementById('topImage').className = 'hideMe';
+  var toptext = document.getElementById('topImageText').className = 'hideMe';
+  var gameImages = document.getElementById('allImages').className = '';
   rounds = 0;
   tracker.displayThreePics();
   tracker.userChoice();
