@@ -8,6 +8,9 @@ function Product(name) {
   this.name = name;
   this.counter = 0;
   picsArr.push(this);
+  this.saveVote = function() {
+    localStorage.setItem(this.name, this.counter);
+  };
 }
 
 function makePics() {
@@ -18,11 +21,20 @@ function makePics() {
 
 makePics();
 
+function initLocalStorage() {
+  for (var pics in picsArr) {
+    picsArr[pics].saveVote();
+  }
+}
+
+initLocalStorage();
+
 var tracker = {
   picOne: document.getElementById('choiceOne'),
   picTwo: document.getElementById('choiceTwo'),
   picThree: document.getElementById('choiceThree'),
   allPics: document.getElementById('allImages'),
+  votesChart: undefined,
   randomImg: function() {
     return Math.floor(Math.random() * names.length);
   },
@@ -53,6 +65,7 @@ var tracker = {
         for (x in picsArr) {
           if (event.target.src.indexOf(picsArr[x].path) !== -1) {
             picsArr[x].counter++;
+            picsArr[x].saveVote();
             rounds++;
             tracker.updateProgress();
             console.log(picsArr[x].name);
@@ -88,14 +101,16 @@ var tracker = {
     },
   ],
   };
-    for (var pics in picsArr) {
-      var picData = picsArr[pics].counter;
-      data.datasets[0].data.push(picData);
+    for (var name in names) {
+      var picData = localStorage.getItem(names[name]);
+      var votesValue = parseInt(picData);
+      data.datasets[0].data.push(votesValue);
     }
 
     var ctx = document.getElementById("myChart").getContext("2d");
     var myNewChart = new Chart(ctx).Bar(data);
     var chart = document.getElementById('myChart');
+    tracker.votesChart = myNewChart;
     chart.className = '';
     tracker.populateReset();
   },
@@ -108,6 +123,7 @@ var tracker = {
 },
 
   restartGame: function() {
+  tracker.votesChart.destroy();
   var chart = document.getElementById('myChart').className = 'hideMe';
   var resetButton = document.getElementById('resetButton').className = 'hideMe';
   rounds = 0;
