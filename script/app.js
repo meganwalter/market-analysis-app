@@ -2,6 +2,8 @@ var picsArr = [];
 var names = ["bag", "banana", "boots", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"];
 var rounds = 0;
 var maxRounds = 15;
+var highest;
+var topPic;
 
 function Product(name) {
   this.path = "images/" + name + ".jpg";
@@ -73,7 +75,6 @@ var tracker = {
             picsArr[x].saveVote();
             rounds++;
             tracker.updateProgress();
-            console.log(picsArr[x].name);
             if (rounds === maxRounds) {
               tracker.allPics.removeEventListener('click', playGame);
               tracker.submitAnswers();
@@ -90,6 +91,17 @@ var tracker = {
     var button = document.getElementById('doneButton');
     button.className = '';
     button.addEventListener('click', tracker.buildBarChart);
+  },
+
+  findHighest: function() {
+    for (pics in picsArr) {
+      if (typeof highest !== "number" || picsArr[pics].counter > highest) {
+        highest = picsArr[pics].counter;
+        topPic = picsArr[pics];
+      }
+    };
+
+    console.log(topPic);
   },
 
   buildBarChart: function() {
@@ -117,8 +129,10 @@ var tracker = {
     var chart = document.getElementById('myChart');
     tracker.votesChart = myNewChart;
     chart.className = '';
+    tracker.findHighest();
     tracker.populateReset();
   },
+
 
   populateReset: function() {
   var button = document.getElementById('doneButton').className = 'hideMe';
