@@ -6,7 +6,12 @@ var maxRounds = 15;
 function Product(name) {
   this.path = "images/" + name + ".jpg";
   this.name = name;
-  this.counter = 0;
+  if (localStorage.getItem(this.name) === null) {
+    this.counter = 0;
+  }else {
+    this.counter = parseInt(localStorage.getItem(this.name));
+  }
+
   picsArr.push(this);
   this.saveVote = function() {
     localStorage.setItem(this.name, this.counter);
@@ -117,6 +122,7 @@ var tracker = {
 
   populateReset: function() {
   var button = document.getElementById('doneButton').className = 'hideMe';
+  var progressTracker = document.getElementById('userProgress').className = 'hideMe';
   var resetButton = document.getElementById('resetButton');
   resetButton.className = '';
   resetButton.addEventListener('click', tracker.restartGame);
@@ -129,6 +135,8 @@ var tracker = {
   rounds = 0;
   tracker.displayThreePics();
   tracker.userChoice();
+  tracker.updateProgress();
+  var showProgress = document.getElementById('userProgress').className = '';
 },
 
   updateProgress: function() {
